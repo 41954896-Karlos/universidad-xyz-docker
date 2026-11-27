@@ -8,11 +8,12 @@ describe('Pruebas RESTful - Microservicio Cursos', () => {
     test('POST /api/cursos - Debe registrar un curso', async () => {
         const res = await request(app).post('/api/cursos').send({
             codigo: 'CUR-999',
-            nombre: 'Arquitectura Cloud',
+            nombre: 'Ingeniería Web Avanzada',
             creditos: 4,
-            docente: 'Mg. Luis Gómez'
+            docente: 'Ing. Carlos Mendoza'
         });
         expect(res.statusCode).toBe(201);
+        expect(res.body).toHaveProperty('id');
         creadoId = res.body.id;
     });
 
@@ -22,12 +23,18 @@ describe('Pruebas RESTful - Microservicio Cursos', () => {
         expect(Array.isArray(res.body)).toBe(true);
     });
 
+    test('GET /api/cursos/:id - Debe consultar el curso creado', async () => {
+        const res = await request(app).get(`/api/cursos/${creadoId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.codigo).toBe('CUR-999');
+    });
+
     test('PUT /api/cursos/:id - Debe actualizar el curso', async () => {
         const res = await request(app).put(`/api/cursos/${creadoId}`).send({
             codigo: 'CUR-999',
-            nombre: 'Arquitectura Microservicios',
+            nombre: 'Desarrollo de Aplicaciones Web',
             creditos: 5,
-            docente: 'Mg. Luis Gómez'
+            docente: 'Ing. Carlos Mendoza'
         });
         expect(res.statusCode).toBe(200);
     });

@@ -6,11 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rutas del microservicio
 app.use('/api/cursos', cursoRoutes);
 
-const PORT = 3002;
+// Solo levanta el servidor si se ejecuta directamente (evita conflicto de puertos en Jest)
 if (require.main === module) {
-    app.listen(PORT, () => console.log(`Microservicio Cursos corriendo en http://localhost:${PORT}`));
+    const PORT = 3002;
+    app.listen(PORT, () => {
+        console.log(`Microservicio Cursos corriendo en http://localhost:${PORT}`);
+    });
 }
 
 module.exports = app;
