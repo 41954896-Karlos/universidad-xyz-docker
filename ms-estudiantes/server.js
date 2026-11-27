@@ -6,11 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rutas del microservicio
 app.use('/api/estudiantes', estudianteRoutes);
 
-const PORT = 3001;
+// Solo levanta el servidor si se ejecuta directamente (evita conflicto de puertos en Jest)
 if (require.main === module) {
-    app.listen(PORT, () => console.log(`Microservicio Estudiantes corriendo en http://localhost:${PORT}`));
+    const PORT = 3001;
+    app.listen(PORT, () => {
+        console.log(`Microservicio Estudiantes corriendo en http://localhost:${PORT}`);
+    });
 }
 
-module.exports = app; // Exportado para Supertest
+module.exports = app;
